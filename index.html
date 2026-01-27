@@ -83,10 +83,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Serif+SC:wght@300;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono&display=swap" rel="stylesheet">
     
     <!-- 
-      CLEAN ARCHITECTURE:
-      Importmap has been removed. 
-      The system now relies entirely on the Vite bundler to link App modules 
-      and dependencies, ensuring compatibility with GitHub Pages (via .nojekyll).
+      ARCHITECTURAL NOTE:
+      Removed the `importmap` block.
+      We are bypassing Jekyll entirely (via .nojekyll in deploy workflow) and relying 
+      purely on the Vite bundler to serve the high-fidelity React application.
     -->
 <script type="importmap">
 {
