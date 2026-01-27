@@ -10,7 +10,7 @@
     <meta name="title" content="JOY WEI JIEZHUO | ARCHIVE">
     <meta name="description" content="Personal archive of Joy (Wei Jiezhuo). Exploring digital liquidity, strategic execution, and sensory curation.">
 
-    <!-- Tailwind CDN -->
+    <!-- Tailwind CDN (保留 CDN 用于快速样式，但在生产环境中 Vite 也会处理 CSS) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -62,6 +62,21 @@
       
       #root { min-height: 100vh; }
 
+      /* Loading State Styles */
+      .initial-loader {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #FFFFFF;
+        z-index: 50;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        color: #C06C59;
+      }
+
       .custom-cursor {
         width: 12px;
         height: 12px;
@@ -93,27 +108,32 @@
   <script type="importmap">
 {
   "imports": {
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
-    "vite": "https://esm.sh/vite@^7.3.1",
-    "react/": "https://esm.sh/react@^19.2.4/",
     "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
   }
 }
 </script>
 <link rel="stylesheet" href="/index.css">
 </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="initial-loader">INITIALIZING ARCHIVE...</div>
+    </div>
+    
     <div id="cursor" class="custom-cursor hidden md:block"></div>
     <div id="cursor-outline" class="custom-cursor-outline hidden md:block"></div>
+    
+    <!-- 关键修改：移除 importmap，直接引用 entry point -->
     <script type="module" src="./index.tsx"></script>
+    
     <script>
       const cursor = document.getElementById('cursor');
       const cursorOutline = document.getElementById('cursor-outline');
       
-      // Ensure elements exist before adding listeners to prevent errors
       if (cursor && cursorOutline) {
         document.addEventListener('mousemove', (e) => {
           cursor.style.left = e.clientX - 6 + 'px';
