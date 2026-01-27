@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Meta Tags -->
+    <title>JOY WEI JIEZHUO | ARCHIVE</title>
+    <meta name="title" content="JOY WEI JIEZHUO | ARCHIVE">
+    <meta name="description" content="Personal archive of Joy (Wei Jiezhuo). Exploring digital liquidity, strategic execution, and sensory curation.">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              serif: ['"Playfair Display"', '"Noto Serif SC"', 'Georgia', 'serif'],
+              sans: ['"Inter"', '"Noto Sans SC"', 'Helvetica', 'Arial', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+            colors: {
+              'paper-white': '#FFFFFF',
+              'ink-black': '#111111',
+              'caption-grey': '#666666',
+              'line-grey': '#F0F0F0',
+              'terracotta': '#C06C59',
+              'accent-gold': '#B89F7D',
+            },
+            letterSpacing: { 'extreme': '0.35em', 'widest': '0.2em' },
+            animation: { 
+              'fade-in': 'fadeIn 1.5s cubic-bezier(0.2, 0, 0.2, 1) forwards', 
+              'slide-up': 'slideUp 1s cubic-bezier(0.2, 0, 0.2, 1) forwards',
+              'reveal': 'reveal 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards'
+            },
+            keyframes: {
+              fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+              slideUp: { '0%': { transform: 'translateY(30px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+              reveal: { '0%': { transform: 'scaleX(0)', transformOrigin: 'left' }, '100%': { transform: 'scaleX(1)', transformOrigin: 'left' } }
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400&family=Noto+Serif+SC:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+      body { 
+        cursor: none; 
+        background-color: #FFFFFF; 
+        -webkit-font-smoothing: antialiased; 
+        overflow-x: hidden; 
+        margin: 0; 
+      }
+      ::selection { background: #111111; color: white; }
+      ::-webkit-scrollbar { width: 3px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: #111111; }
+      
+      #root { min-height: 100vh; }
+
+      .custom-cursor {
+        width: 12px;
+        height: 12px;
+        background: #C06C59;
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.15s ease-out, opacity 0.3s ease;
+        mix-blend-mode: normal;
+      }
+      
+      .custom-cursor-outline {
+        width: 40px;
+        height: 40px;
+        border: 1px solid rgba(192, 108, 89, 0.3);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9998;
+        transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .hover-active .custom-cursor { transform: scale(3); opacity: 0.15; }
+      .hover-active .custom-cursor-outline { transform: scale(1.5); border-color: #C06C59; }
+
+      .writing-vertical { writing-mode: vertical-rl; }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <div id="cursor" class="custom-cursor hidden md:block"></div>
+    <div id="cursor-outline" class="custom-cursor-outline hidden md:block"></div>
+    <script type="module" src="./index.tsx"></script>
+    <script>
+      const cursor = document.getElementById('cursor');
+      const cursorOutline = document.getElementById('cursor-outline');
+      
+      // Ensure elements exist before adding listeners to prevent errors
+      if (cursor && cursorOutline) {
+        document.addEventListener('mousemove', (e) => {
+          cursor.style.left = e.clientX - 6 + 'px';
+          cursor.style.top = e.clientY - 6 + 'px';
+          
+          cursorOutline.animate({
+            left: e.clientX - 20 + 'px',
+            top: e.clientY - 20 + 'px'
+          }, { duration: 500, fill: 'forwards' });
+        });
+
+        document.addEventListener('mouseover', (e) => {
+          if (e.target.closest('a, button, [role="button"], .interactive')) {
+            document.body.classList.add('hover-active');
+          }
+        });
+
+        document.addEventListener('mouseout', (e) => {
+          if (e.target.closest('a, button, [role="button"], .interactive')) {
+            document.body.classList.remove('hover-active');
+          }
+        });
+      }
+    </script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
