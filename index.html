@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -6,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JOY WEI JIEZHUO | ARCHIVE</title>
     
-    <!-- 基础样式：确保在 Tailwind 加载前页面也有基本外观 -->
     <style>
       body {
         margin: 0;
@@ -14,29 +12,26 @@
         background-color: #ffffff;
         color: #111111;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        cursor: none; /* 保持隐藏原生光标 */
+        cursor: none;
         overflow-x: hidden;
       }
       
-      /* 初始加载时的居中文字 */
+      /* Loader: 确保它在最底层，但初始化时可见 */
       .init-loader {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        inset: 0;
         display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 0; /* 在 React root 之下 */
+        z-index: 0; 
         font-size: 10px;
         letter-spacing: 0.2em;
-        color: #C06C59; /* Terracotta */
+        color: #C06C59;
         font-weight: bold;
         text-transform: uppercase;
+        background-color: #ffffff;
       }
 
-      /* 自定义光标样式 */
       .custom-cursor {
         position: fixed;
         pointer-events: none;
@@ -45,7 +40,7 @@
         height: 12px;
         background: #C06C59;
         border-radius: 50%;
-        transform: translate(-50%, -50%); /* 居中定位 */
+        transform: translate(-50%, -50%);
       }
       .custom-cursor-outline {
         position: fixed;
@@ -55,12 +50,11 @@
         height: 40px;
         border: 1px solid rgba(192, 108, 89, 0.3);
         border-radius: 50%;
-        transform: translate(-50%, -50%); /* 居中定位 */
+        transform: translate(-50%, -50%);
         transition: all 0.1s ease-out;
       }
     </style>
 
-    <!-- Tailwind CDN：这是你目前唯一的样式来源 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -84,17 +78,15 @@
       }
     </script>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Serif+SC:wght@300;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono&display=swap" rel="stylesheet">
     
     <!-- 
-      CRITICAL FIX: 移除了 importmap。
-      Vite 在构建时会自动处理 npm 包的依赖。
-      浏览器不需要 importmap，也不需要去 esm.sh 下载 React。
+      CLEAN: No importmap here. 
+      Vite handles all dependencies via package.json.
     -->
-  <script type="importmap">
+<script type="importmap">
 {
   "imports": {
     "react": "https://esm.sh/react@^19.2.4",
@@ -106,34 +98,29 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
   
   <body>
-    <!-- 初始加载提示，React 挂载后会覆盖它，或者背景色会盖住它 -->
-    <div class="init-loader">SYSTEM INITIALIZING...</div>
+    <!-- 加载文字 -->
+    <div id="loader" class="init-loader">SYSTEM INITIALIZING...</div>
 
-    <!-- React 挂载点 -->
-    <div id="root" style="position: relative; z-index: 1;"></div>
+    <!-- React 挂载点：z-index 10 确保加载后覆盖文字 -->
+    <div id="root" style="position: relative; z-index: 10; min-height: 100vh;"></div>
 
-    <!-- 光标 DOM -->
+    <!-- Cursor -->
     <div id="cursor" class="custom-cursor hidden md:block"></div>
     <div id="cursor-outline" class="custom-cursor-outline hidden md:block"></div>
 
-    <!-- 
-      Vite Entry Point 
-      注意：使用 /index.tsx 而不是 ./index.tsx，这是 Vite 的标准约定。
-    -->
+    <!-- Entry Point -->
     <script type="module" src="/index.tsx"></script>
 
-    <!-- 原生光标脚本 -->
     <script>
+      // 增强的光标逻辑
       const cursor = document.getElementById('cursor');
       const cursorOutline = document.getElementById('cursor-outline');
       
       if (window.matchMedia("(min-width: 768px)").matches && cursor && cursorOutline) {
         document.addEventListener('mousemove', (e) => {
-          // 使用 left/top 配合 CSS transform translate(-50%, -50%) 实现精准中心对齐
           cursor.style.left = e.clientX + 'px';
           cursor.style.top = e.clientY + 'px';
           
@@ -143,6 +130,14 @@
           }, { duration: 500, fill: "forwards" });
         });
       }
+      
+      // 安全网：如果 3秒后 React 还没加载（通常不会发生），手动隐藏 loader 避免遮挡报错信息（虽然通常是在控制台）
+      setTimeout(() => {
+        const loader = document.getElementById('loader');
+        if (loader && document.getElementById('root').childElementCount > 0) {
+           loader.style.display = 'none';
+        }
+      }, 3000);
     </script>
   </body>
 </html>
