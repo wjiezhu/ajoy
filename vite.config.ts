@@ -5,8 +5,10 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // 必须设置为 './'，这样 GitHub Pages 这种非根路径部署才能找到 js/css
-  base: './', 
+  // GitHub Pages 部署关键配置：
+  // 必须与仓库名一致 (https://wjiezhu.github.io/joy-archive/)
+  // 使用 '/joy-archive/' 替代 './' 可以更稳定地解析深层资源
+  base: '/joy-archive/', 
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
