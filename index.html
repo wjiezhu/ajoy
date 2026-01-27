@@ -1,16 +1,66 @@
 
 <!DOCTYPE html>
-<html lang="zh-CN" class="scroll-smooth">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- Primary Meta Tags -->
     <title>JOY WEI JIEZHUO | ARCHIVE</title>
-    <meta name="title" content="JOY WEI JIEZHUO | ARCHIVE">
-    <meta name="description" content="Personal archive of Joy (Wei Jiezhuo). Exploring digital liquidity, strategic execution, and sensory curation.">
+    
+    <!-- 基础样式：确保在 Tailwind 加载前页面也有基本外观 -->
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff;
+        color: #111111;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        cursor: none; /* 保持隐藏原生光标 */
+        overflow-x: hidden;
+      }
+      
+      /* 初始加载时的居中文字 */
+      .init-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 0; /* 在 React root 之下 */
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        color: #C06C59; /* Terracotta */
+        font-weight: bold;
+        text-transform: uppercase;
+      }
 
-    <!-- Tailwind CDN (保留 CDN 用于快速样式，但在生产环境中 Vite 也会处理 CSS) -->
+      /* 自定义光标样式 */
+      .custom-cursor {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        width: 12px;
+        height: 12px;
+        background: #C06C59;
+        border-radius: 50%;
+        transform: translate(-50%, -50%); /* 居中定位 */
+      }
+      .custom-cursor-outline {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9998;
+        width: 40px;
+        height: 40px;
+        border: 1px solid rgba(192, 108, 89, 0.3);
+        border-radius: 50%;
+        transform: translate(-50%, -50%); /* 居中定位 */
+        transition: all 0.1s ease-out;
+      }
+    </style>
+
+    <!-- Tailwind CDN：这是你目前唯一的样式来源 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -24,87 +74,26 @@
             colors: {
               'paper-white': '#FFFFFF',
               'ink-black': '#111111',
-              'caption-grey': '#666666',
-              'line-grey': '#F0F0F0',
               'terracotta': '#C06C59',
-              'accent-gold': '#B89F7D',
             },
-            letterSpacing: { 'extreme': '0.35em', 'widest': '0.2em' },
             animation: { 
-              'fade-in': 'fadeIn 1.5s cubic-bezier(0.2, 0, 0.2, 1) forwards', 
-              'slide-up': 'slideUp 1s cubic-bezier(0.2, 0, 0.2, 1) forwards',
-              'reveal': 'reveal 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards'
-            },
-            keyframes: {
-              fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
-              slideUp: { '0%': { transform: 'translateY(30px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
-              reveal: { '0%': { transform: 'scaleX(0)', transformOrigin: 'left' }, '100%': { transform: 'scaleX(1)', transformOrigin: 'left' } }
+              'spin-slow': 'spin 8s linear infinite',
             }
           }
         }
       }
     </script>
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400&family=Noto+Serif+SC:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <style>
-      body { 
-        cursor: none; 
-        background-color: #FFFFFF; 
-        -webkit-font-smoothing: antialiased; 
-        overflow-x: hidden; 
-        margin: 0; 
-      }
-      ::selection { background: #111111; color: white; }
-      ::-webkit-scrollbar { width: 3px; }
-      ::-webkit-scrollbar-track { background: transparent; }
-      ::-webkit-scrollbar-thumb { background: #111111; }
-      
-      #root { min-height: 100vh; }
-
-      /* Loading State Styles */
-      .initial-loader {
-        position: fixed;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #FFFFFF;
-        z-index: 50;
-        font-family: "JetBrains Mono", monospace;
-        font-size: 10px;
-        letter-spacing: 0.2em;
-        color: #C06C59;
-      }
-
-      .custom-cursor {
-        width: 12px;
-        height: 12px;
-        background: #C06C59;
-        border-radius: 50%;
-        position: fixed;
-        pointer-events: none;
-        z-index: 9999;
-        transition: transform 0.15s ease-out, opacity 0.3s ease;
-        mix-blend-mode: normal;
-      }
-      
-      .custom-cursor-outline {
-        width: 40px;
-        height: 40px;
-        border: 1px solid rgba(192, 108, 89, 0.3);
-        border-radius: 50%;
-        position: fixed;
-        pointer-events: none;
-        z-index: 9998;
-        transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
-      }
-
-      .hover-active .custom-cursor { transform: scale(3); opacity: 0.15; }
-      .hover-active .custom-cursor-outline { transform: scale(1.5); border-color: #C06C59; }
-
-      .writing-vertical { writing-mode: vertical-rl; }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Serif+SC:wght@300;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    
+    <!-- 
+      CRITICAL FIX: 移除了 importmap。
+      Vite 在构建时会自动处理 npm 包的依赖。
+      浏览器不需要 importmap，也不需要去 esm.sh 下载 React。
+    -->
   <script type="importmap">
 {
   "imports": {
@@ -119,45 +108,41 @@
 </script>
 <link rel="stylesheet" href="/index.css">
 </head>
+  
   <body>
-    <div id="root">
-      <div class="initial-loader">INITIALIZING ARCHIVE...</div>
-    </div>
-    
+    <!-- 初始加载提示，React 挂载后会覆盖它，或者背景色会盖住它 -->
+    <div class="init-loader">SYSTEM INITIALIZING...</div>
+
+    <!-- React 挂载点 -->
+    <div id="root" style="position: relative; z-index: 1;"></div>
+
+    <!-- 光标 DOM -->
     <div id="cursor" class="custom-cursor hidden md:block"></div>
     <div id="cursor-outline" class="custom-cursor-outline hidden md:block"></div>
-    
-    <!-- 关键修改：移除 importmap，直接引用 entry point -->
-    <script type="module" src="./index.tsx"></script>
-    
+
+    <!-- 
+      Vite Entry Point 
+      注意：使用 /index.tsx 而不是 ./index.tsx，这是 Vite 的标准约定。
+    -->
+    <script type="module" src="/index.tsx"></script>
+
+    <!-- 原生光标脚本 -->
     <script>
       const cursor = document.getElementById('cursor');
       const cursorOutline = document.getElementById('cursor-outline');
       
-      if (cursor && cursorOutline) {
+      if (window.matchMedia("(min-width: 768px)").matches && cursor && cursorOutline) {
         document.addEventListener('mousemove', (e) => {
-          cursor.style.left = e.clientX - 6 + 'px';
-          cursor.style.top = e.clientY - 6 + 'px';
+          // 使用 left/top 配合 CSS transform translate(-50%, -50%) 实现精准中心对齐
+          cursor.style.left = e.clientX + 'px';
+          cursor.style.top = e.clientY + 'px';
           
           cursorOutline.animate({
-            left: e.clientX - 20 + 'px',
-            top: e.clientY - 20 + 'px'
-          }, { duration: 500, fill: 'forwards' });
-        });
-
-        document.addEventListener('mouseover', (e) => {
-          if (e.target.closest('a, button, [role="button"], .interactive')) {
-            document.body.classList.add('hover-active');
-          }
-        });
-
-        document.addEventListener('mouseout', (e) => {
-          if (e.target.closest('a, button, [role="button"], .interactive')) {
-            document.body.classList.remove('hover-active');
-          }
+            left: e.clientX + 'px',
+            top: e.clientY + 'px'
+          }, { duration: 500, fill: "forwards" });
         });
       }
     </script>
-  <script type="module" src="/index.tsx"></script>
-</body>
+  </body>
 </html>

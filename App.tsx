@@ -7,8 +7,6 @@ import { ModuleType } from './types';
 import { ArrowDown, ShieldAlert, Globe } from 'lucide-react';
 
 const App: React.FC = () => {
-  // Initialize as true to ensure content is visible even if useEffect delays
-  const [isLoaded, setIsLoaded] = useState(true);
   const [currentTime, setCurrentTime] = useState('');
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
@@ -32,8 +30,9 @@ const App: React.FC = () => {
     };
   }, []);
 
+  // 移除了 "animate-fade-in" 类，确保页面立即对用户可见
   return (
-    <div className="bg-paper-white min-h-screen text-ink-black animate-fade-in">
+    <div className="bg-paper-white min-h-screen text-ink-black overflow-x-hidden selection:bg-ink-black selection:text-white">
       <Navigation />
       
       {/* Editorial Header */}
@@ -58,9 +57,10 @@ const App: React.FC = () => {
         
         {/* Liquid Background Logic */}
         <div 
-          className="absolute inset-0 -z-10 pointer-events-none opacity-40 transition-transform duration-1000 ease-out"
+          className="absolute inset-0 -z-10 pointer-events-none opacity-40"
           style={{ 
-            transform: `translate(${(mousePos.x - window.innerWidth/2) * 0.02}px, ${(mousePos.y - window.innerHeight/2) * 0.02}px)` 
+            transform: `translate(${(mousePos.x - window.innerWidth/2) * 0.02}px, ${(mousePos.y - window.innerHeight/2) * 0.02}px)`,
+            transition: 'transform 0.1s ease-out'
           }}
         >
           <div className="absolute top-[20%] left-[10%] w-[60vw] h-[60vw] bg-[#F8F3F0] rounded-full blur-[120px]"></div>
@@ -70,7 +70,7 @@ const App: React.FC = () => {
         <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
           
           <div className="lg:col-span-8 space-y-12">
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
               <span className="flex items-center gap-2 text-[10px] uppercase tracking-extreme text-terracotta font-semibold">
                 <Globe size={12} className="animate-spin-slow" /> Current Trajectory
               </span>
@@ -86,7 +86,7 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            <div className="relative animate-slide-up" style={{ animationDelay: '0.4s' }}>
+            <div className="relative">
               <div className="absolute -top-12 -left-8 text-[12vw] font-serif italic text-gray-50 opacity-[0.03] select-none pointer-events-none leading-none">
                 Archives
               </div>
@@ -98,7 +98,7 @@ const App: React.FC = () => {
               </h1>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-12 md:gap-24 animate-slide-up" style={{ animationDelay: '0.6s' }}>
+            <div className="flex flex-col md:flex-row gap-12 md:gap-24">
               <div className="max-w-xs space-y-6">
                 <div className="h-px w-12 bg-terracotta"></div>
                 <p className="font-serif text-xl italic text-ink-black leading-relaxed">
@@ -127,8 +127,7 @@ const App: React.FC = () => {
             </div>
           </div>
 
-          {/* Side Indicator */}
-          <div className="lg:col-span-4 hidden lg:flex flex-col items-end gap-12 pb-12 animate-fade-in" style={{ animationDelay: '1s' }}>
+          <div className="lg:col-span-4 hidden lg:flex flex-col items-end gap-12 pb-12">
              <div className="writing-vertical text-[9px] uppercase tracking-[0.5em] text-gray-300">
                SCROLL TO EXPLORE ARCHIVE_01
              </div>
